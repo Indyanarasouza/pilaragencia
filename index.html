@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pilar Agência · Estúdio de conteúdo e narrativa</title>
+<meta name="description" content="Vídeos, roteiros e direção criativa para marcas que já têm o que mostrar e querem ser lembradas. Atendemos todo o Brasil.">
+<meta property="og:title" content="Pilar Agência">
+<meta property="og:description" content="A pessoa atravessa a cidade por causa de um vídeo. A gente faz esse vídeo.">
+<meta property="og:image" content="og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap">
+<style>
+  /* ===== TOKENS =====
+     Regras do design.md (Auros) aplicadas à paleta da Pilar:
+     pilha de superfícies em vez de sombras · peso único (400/500) · cor racionada
+     raios 16px (cards) e 6px (botões) · escala de espaçamento de base 4px */
+  :root{
+    /* superfícies */
+    --canvas:#0B0B0B;      /* nível 0 — fundo da página */
+    --deep:#060606;        /* nível 1 — superfície rebaixada */
+    --raised:#171614;      /* nível 2 — cartão elevado */
+    --tint:#242220;        /* nível 3 — linhas e estados inativos */
+    /* texto */
+    --platinum:#FFFDF8;    /* títulos e navegação */
+    --mist:#F2EFE9;        /* corpo enfatizado */
+    --silver:#A8A39B;      /* corpo secundário */
+    --slate:#6F6B65;       /* texto terciário */
+    /* acento racionado */
+    --vinho:#5E1A22;
+    --vinho-2:#8A2E38;
+    --blush:#EFD8DA;       /* só em estatísticas */
+    --gradient:linear-gradient(90deg,#5E1A22 0%,#8A2E38 100%);  /* usado só no fio do processo */
+    /* tipografia */
+    --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+    --sans:"Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --w-regular:400; --w-medium:500;
+    /* espaçamento */
+    --s-12:12px; --s-16:16px; --s-20:20px; --s-24:24px; --s-32:32px; --s-36:36px;
+    --s-48:48px; --s-64:64px; --s-80:80px; --s-120:120px; --s-160:160px;
+    --page:1440px; --gutter:clamp(20px,5vw,80px);
+    /* formas */
+    --r-card:16px; --r-small:6px;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--canvas);color:var(--silver);font-family:var(--sans);font-weight:var(--w-regular);font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *,*::before,*::after{animation:none!important;transition:none!important}}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--page);margin:0 auto;padding-inline:var(--gutter)}
+  section{padding-block:clamp(var(--s-80),12vw,var(--s-160))}
+  .dark{background:var(--canvas)}
+  .deep{background:var(--deep)}
+
+  /* tipografia: peso 400/500, nada de negrito; entrelinha 1.0 acima de 36px, 1.4 no corpo */
+  h1,h2,h3{font-family:var(--serif);font-weight:var(--w-regular);margin:0;color:var(--platinum);text-wrap:balance}
+  h1{font-size:clamp(40px,7vw,96px);line-height:1;letter-spacing:-.04em}
+  h2{font-size:clamp(36px,5.2vw,61px);line-height:1;letter-spacing:-.04em}
+  h3{font-size:clamp(24px,2.6vw,36px);line-height:1;letter-spacing:-.02em}
+  em,.it{font-style:italic}
+  p{margin:0}
+  strong,b{font-weight:var(--w-medium)}
+  .eyebrow{font-family:var(--sans);font-size:12px;font-weight:var(--w-medium);letter-spacing:.12em;text-transform:uppercase;color:var(--silver);margin:0 0 var(--s-20)}
+  .lead{font-size:clamp(16px,1.4vw,20px);line-height:1.4;max-width:60ch;color:var(--silver)}
+  .mist{color:var(--mist)}
+
+  /* botões: raio 6px, texto 14px caixa alta, gradiente só no principal */
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border:0;border-radius:var(--r-small);background:var(--vinho);color:var(--platinum);text-decoration:none;font-size:14px;font-weight:var(--w-medium);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;transition:background .15s}
+  .btn:hover{background:var(--vinho-2)}
+  .btn:focus-visible{outline:2px solid var(--blush);outline-offset:3px}
+  .btn.flat{background:var(--raised);color:var(--mist)}
+  .btn.flat:hover{background:var(--tint);filter:none}
+  .link{font-size:13px;font-weight:var(--w-medium);letter-spacing:.12em;text-transform:uppercase;color:var(--silver);text-decoration:none;border-bottom:1px solid var(--tint);padding-bottom:4px}
+  .link:hover{color:var(--platinum);border-color:var(--platinum)}
+
+  /* barra fixa — transparente, 80px, sem sombra */
+  .bar{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:rgba(11,11,11,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--tint);transition:transform .25s}
+  .bar.hide{transform:translateY(-100%)}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:80px}
+  .bar img{height:32px;width:auto}
+  .bar .btn{padding:12px 18px}
+  .fab{display:none;position:fixed;right:var(--s-16);bottom:calc(var(--s-16) + env(safe-area-inset-bottom,0px));z-index:50}
+  .fab.on{display:inline-flex}
+
+  /* hero */
+  .hero{padding-top:calc(80px + clamp(var(--s-64),10vw,var(--s-140,140px)))}
+  .hero h1{max-width:18ch}
+  .hero .lead{margin-top:var(--s-24)}
+  .hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-20);align-items:center;margin-top:var(--s-36)}
+  .reels{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s-16);margin-top:clamp(var(--s-48),7vw,var(--s-120))}
+  @media (max-width:820px){.reels{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);padding-bottom:var(--s-12);scrollbar-width:none}.reels::-webkit-scrollbar{display:none}.reels .reel{flex:0 0 62%;scroll-snap-align:start}}
+
+  /* peça de vídeo — cartão elevado, raio 16px, sem sombra */
+  .reel{position:relative;container-type:inline-size;aspect-ratio:9/16;max-width:100%;border-radius:var(--r-card);overflow:hidden;background:var(--raised);cursor:pointer}
+  .reel video{width:100%;height:100%;object-fit:cover;display:block}
+  .reel .ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(10px,7cqw,var(--s-24));background:var(--raised)}
+  .reel .ph .t{font-family:var(--serif);font-style:italic;font-size:clamp(14px,11cqw,24px);line-height:1;color:var(--mist)}
+  .reel .ph .m{font-size:clamp(8px,4.5cqw,10px);letter-spacing:.15em;text-transform:uppercase;color:var(--slate);margin-top:var(--s-12)}
+  .reel .tag{position:absolute;left:0;right:0;bottom:0;padding:clamp(8px,6cqw,var(--s-16));font-size:clamp(8px,5cqw,10px);letter-spacing:.15em;text-transform:uppercase;color:var(--mist);background:linear-gradient(transparent,rgba(6,6,6,.82));opacity:0;transition:opacity .2s;pointer-events:none}
+  .reel:hover .tag,.reel.playing .tag{opacity:1}
+  .reel.hasvideo .ph{display:none}
+  .reel.hasvideo::after{content:"";position:absolute;top:var(--s-12);right:var(--s-12);width:32px;height:32px;border-radius:var(--r-small);background:rgba(36,34,32,.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFDF8'%3E%3Cpath d='M3 10v4h4l5 4V6L7 10H3zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z'/%3E%3C/svg%3E") center/16px no-repeat}
+
+  /* marcas */
+  .marcas{padding-block:var(--s-32);border-top:1px solid var(--tint);border-bottom:1px solid var(--tint)}
+  .marcas .wrap{display:flex;gap:var(--s-24);align-items:baseline;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+  .marcas .wrap::-webkit-scrollbar{display:none}
+  .marcas .eyebrow{margin:0;flex:0 0 auto}
+  .marcas span{font-size:12px;font-weight:var(--w-medium);letter-spacing:.12em;text-transform:uppercase;color:var(--slate);flex:0 0 auto}
+  .marcas span+span::before{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--tint);margin-right:var(--s-24);vertical-align:middle}
+
+  /* manifesto */
+  .manifesto .wrap{max-width:900px}
+  .manifesto h2{margin-bottom:var(--s-48)}
+  .manifesto p{font-size:clamp(18px,1.6vw,24px);line-height:1.4;max-width:58ch;color:var(--mist)}
+  .manifesto p+p{margin-top:var(--s-24)}
+  .manifesto .nao{color:var(--silver)}
+
+  /* serviços — linhas de cartão transparente */
+  .servicos .head{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--s-48);align-items:end;margin-bottom:var(--s-64)}
+  .frentes{border-top:1px solid var(--tint)}
+  .frente{display:grid;grid-template-columns:64px 1fr 1.4fr;gap:var(--s-24);padding:var(--s-36) 0;border-bottom:1px solid var(--tint);align-items:baseline}
+  .frente .n{font-size:12px;font-weight:var(--w-medium);letter-spacing:.15em;color:var(--slate)}
+  .frente p{color:var(--silver);max-width:52ch}
+  .nao-fazemos{margin-top:var(--s-32);font-size:13px;letter-spacing:.06em;color:var(--slate)}
+  @media (max-width:820px){.servicos .head{grid-template-columns:1fr;gap:var(--s-20)}.frente{grid-template-columns:40px 1fr;gap:var(--s-12)}.frente p{grid-column:2}}
+
+  /* processo */
+  .processo .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(var(--s-36),6vw,var(--s-120));margin-top:var(--s-64);align-items:start}
+  .processo .foto{aspect-ratio:3/2;overflow:hidden;border-radius:var(--r-card);position:sticky;top:120px}
+  .processo .foto img{width:100%;height:100%;object-fit:cover}
+  .passos{list-style:none;margin:0;padding:0;position:relative}
+  .passos::before{content:"";position:absolute;left:19px;top:20px;bottom:20px;width:1px;background:var(--tint)}
+  .passos .fill{position:absolute;left:19px;top:20px;width:1px;background:var(--vinho-2);height:0;transition:height .3s linear}
+  .passo{display:grid;grid-template-columns:40px 1fr;gap:var(--s-24);padding:var(--s-20) 0;position:relative}
+  .passo .n{width:40px;height:40px;border-radius:var(--r-small);background:var(--raised);display:grid;place-items:center;font-size:13px;font-weight:var(--w-medium);color:var(--slate);transition:background .3s,color .3s}
+  .passo.on .n{background:var(--tint);color:var(--platinum)}
+  .passo h3{margin-bottom:var(--s-12)}
+  .passo p{color:var(--silver);max-width:48ch}
+  .processo .fecho{margin-top:var(--s-48);display:flex;flex-wrap:wrap;gap:var(--s-24);align-items:center;justify-content:space-between;border-top:1px solid var(--tint);padding-top:var(--s-32)}
+  .processo .fecho p{color:var(--silver);max-width:48ch}
+  @media (max-width:820px){.processo .grid{grid-template-columns:1fr}.processo .foto{position:static}}
+
+  /* cases */
+  .cases h2{margin-bottom:var(--s-64)}
+  .case{display:grid;grid-template-columns:6fr 6fr;gap:clamp(var(--s-32),5vw,var(--s-80));padding-block:var(--s-64);border-top:1px solid var(--tint);align-items:start}
+  .case.flip .media{order:2}
+  .case .media.row{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:var(--s-16)}
+  .case .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-12);align-items:baseline;margin-bottom:var(--s-24)}
+  .case .top .st{font-size:10px;font-weight:var(--w-medium);letter-spacing:.15em;text-transform:uppercase;color:var(--slate)}
+  .case .top .st.atual{color:var(--mist)}
+  .case .top .st.atual::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--vinho-2);margin-right:8px;vertical-align:middle}
+  .case .seg{font-size:13px;color:var(--slate);margin-top:8px}
+  .case dl{margin:var(--s-32) 0 0;display:grid;gap:var(--s-16)}
+  .case dt{font-size:10px;font-weight:var(--w-medium);letter-spacing:.15em;text-transform:uppercase;color:var(--slate)}
+  .case dd{margin:8px 0 0;max-width:58ch;color:var(--silver)}
+  /* estatísticas — o único lugar do rosa */
+  .nums{display:grid;grid-template-columns:repeat(2,max-content);gap:var(--s-32) var(--s-64);margin-top:var(--s-48);padding-top:var(--s-32);border-top:1px solid var(--tint)}
+  .num b{display:block;font-family:var(--sans);font-weight:var(--w-medium);font-size:clamp(36px,4.4vw,61px);line-height:1;letter-spacing:-.04em;color:var(--blush);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .num span{display:block;font-size:10px;font-weight:var(--w-medium);letter-spacing:.15em;text-transform:uppercase;color:var(--mist);margin-top:var(--s-12)}
+  .case .note{margin-top:var(--s-20);font-size:13px;color:var(--slate);max-width:60ch}
+  .cases .foot{font-size:12px;letter-spacing:.04em;color:var(--slate);margin-top:var(--s-48);max-width:70ch}
+  .cases .cta{margin-top:var(--s-48)}
+  @media (max-width:820px){.case,.case.flip{grid-template-columns:1fr}.case.flip .media{order:0}.case .media.row{grid-template-columns:repeat(2,1fr)}.nums{grid-template-columns:1fr 1fr;gap:var(--s-24)}.num b{white-space:normal}}
+
+  /* galeria e design */
+  .galeria h2,.design h2{margin-bottom:var(--s-48)}
+  .grid12{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-16)}
+  .design .head{display:grid;grid-template-columns:1.1fr 1fr;gap:var(--s-48);align-items:end;margin-bottom:var(--s-48)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-16)}
+  .card{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:var(--r-card);overflow:hidden;background:var(--raised);cursor:pointer;padding:0;border:0;display:block;width:100%;font:inherit;color:inherit;text-align:left}
+  .card img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .card:hover img,.card:focus-visible img{transform:scale(1.03)}
+  .card:focus-visible{outline:2px solid var(--blush);outline-offset:3px}
+  .card .cap{position:absolute;left:0;right:0;bottom:0;padding:var(--s-32) var(--s-16) var(--s-16);background:linear-gradient(transparent,rgba(6,6,6,.82));display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:10px;font-weight:var(--w-medium);letter-spacing:.15em;text-transform:uppercase;color:var(--mist)}
+  .card .cap span{color:var(--slate);white-space:nowrap}
+  @media (max-width:820px){.grid12,.cards{grid-template-columns:repeat(2,1fr)}.design .head{grid-template-columns:1fr;gap:var(--s-20)}.card .cap{flex-direction:column;gap:2px}}
+
+  /* sobre */
+  .sobre .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(var(--s-36),6vw,var(--s-120));align-items:center}
+  .sobre .foto{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-card)}
+  .sobre .foto img{width:100%;height:100%;object-fit:cover}
+  .sobre h2{margin-bottom:var(--s-32)}
+  .sobre p{font-size:clamp(16px,1.4vw,20px);max-width:56ch;color:var(--silver)}
+  .sobre p+p{margin-top:var(--s-20)}
+  .sobre .ass{margin-top:var(--s-36);padding-top:var(--s-24);border-top:1px solid var(--tint)}
+  .sobre .ass b{display:block;font-family:var(--serif);font-weight:var(--w-regular);font-size:24px;color:var(--platinum)}
+  .sobre .ass span{font-size:13px;color:var(--slate)}
+  .sobre .ass a{color:var(--silver);text-decoration:none;border-bottom:1px solid var(--tint)}
+  @media (max-width:820px){.sobre .grid{grid-template-columns:1fr}.sobre .foto{max-width:420px}}
+
+  /* para quem é */
+  .quem .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(var(--s-32),5vw,var(--s-80));margin-top:var(--s-48)}
+  .quem h3{margin-bottom:var(--s-24)}
+  .quem ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--tint)}
+  .quem li{padding:var(--s-20) 0 var(--s-20) var(--s-32);border-bottom:1px solid var(--tint);position:relative;color:var(--silver);max-width:46ch}
+  .quem li::before{content:"";position:absolute;left:0;top:30px;width:16px;height:1px;background:var(--slate)}
+  .quem .nao li::before{background:var(--vinho-2)}
+  @media (max-width:820px){.quem .cols{grid-template-columns:1fr}}
+
+  /* faq */
+  .faq .wrap{max-width:900px}
+  .faq h2{margin-bottom:var(--s-48)}
+  .faq details{border-top:1px solid var(--tint)}
+  .faq details:last-of-type{border-bottom:1px solid var(--tint)}
+  .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:var(--s-24);align-items:center;padding:var(--s-24) 0;font-family:var(--serif);font-size:clamp(20px,2vw,24px);color:var(--platinum)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--sans);font-size:20px;color:var(--slate);transition:transform .25s;flex:0 0 auto}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 0 var(--s-24);color:var(--silver);max-width:60ch}
+
+  /* CTA final — poço rebaixado, 120px de respiro */
+  .final{background:var(--deep);text-align:center;padding-block:var(--s-120)}
+  .final .wrap{max-width:900px}
+  .final p{margin:var(--s-24) auto var(--s-36);max-width:52ch;color:var(--silver);font-size:clamp(16px,1.4vw,20px)}
+
+  /* rodapé */
+  footer{padding-block:var(--s-64);background:var(--deep);border-top:1px solid var(--tint);font-size:13px;color:var(--slate)}
+  footer .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:var(--s-32);align-items:start}
+  footer img{height:36px;width:auto}
+  footer a{text-decoration:none;color:var(--silver)}
+  footer a:hover{color:var(--platinum)}
+  footer .links{display:flex;flex-wrap:wrap;gap:8px var(--s-20);margin-top:var(--s-12)}
+  footer .ass{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--mist);text-align:right;max-width:26ch}
+  @media (max-width:820px){footer .wrap{grid-template-columns:1fr}footer .ass{text-align:left}}
+
+  /* visualizador */
+  .lb{position:fixed;inset:0;z-index:100;background:rgba(6,6,6,.94);display:none;align-items:center;justify-content:center;padding:var(--s-24)}
+  .lb.on{display:flex}
+  .lb video{max-height:90vh;max-width:min(92vw,506px);border-radius:var(--r-card)}
+  .lb .x{position:absolute;top:calc(var(--s-16) + env(safe-area-inset-top,0px));right:var(--s-16);background:var(--raised);border:0;color:var(--mist);border-radius:var(--r-small);width:40px;height:40px;cursor:pointer;font-size:18px}
+  .lb .x:hover{background:var(--tint)}
+  .lb .msg{color:var(--silver);text-align:center;max-width:36ch;font-size:15px}
+  .slides{display:flex;flex-direction:column;align-items:center;gap:var(--s-16);max-width:min(92vw,560px)}
+  .slides img{max-height:78vh;width:auto;max-width:100%;border-radius:var(--r-card);display:block}
+  .slides .ctl{display:flex;align-items:center;gap:var(--s-20);color:var(--silver);font-size:13px;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  .slides button{background:var(--raised);border:0;color:var(--mist);border-radius:var(--r-small);width:40px;height:40px;cursor:pointer;font-size:18px}
+  .slides button:hover{background:var(--tint)}
+  .slides button:disabled{opacity:.3;cursor:default}
+  .slides .nm{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--slate)}
+</style>
+</head>
+<body>
+
+
+
+<header class="bar" id="bar">
+  <div class="wrap">
+    <a href="#topo" aria-label="Pilar Agência"><img src="{{LOGO}}" alt="Pilar Agência"></a>
+    <a class="btn flat" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="barra">Chamar no WhatsApp</a>
+  </div>
+</header>
+<a class="btn fab" id="fab" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="flutuante">WhatsApp</a>
+
+<main id="topo">
+
+<section class="hero dark">
+  <div class="wrap">
+    <p class="eyebrow">Pilar Agência · Estúdio de conteúdo e narrativa</p>
+    <h1>A pessoa atravessa a cidade por causa de um vídeo. <em>A gente faz esse vídeo.</em></h1>
+    <p class="lead">Vídeos, roteiros e direção criativa para marcas que já têm o que mostrar e querem ser lembradas.</p>
+    <div class="cta">
+      <a class="btn" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="hero">Agendar diagnóstico gratuito</a>
+      <a class="link" href="#galeria">Ver trabalhos ↓</a>
+    </div>
+    <div class="reels" id="hero-reels"></div>
+  </div>
+</section>
+
+<div class="marcas dark">
+  <div class="wrap">
+    <p class="eyebrow">Projetos realizados</p>
+    <span>Tangerine Confeitaria</span><span>Alma Café &amp; Bistrô</span><span>Karen Storti</span><span>Márcia Lerinna</span><span>Tecnia Brasil</span><span>Vox2you Bragança</span><span>JFor Compliance</span><span>Ferri Fonseca</span><span>Vida na Cozinha</span><span>Naty</span>
+  </div>
+</div>
+
+<section class="manifesto deep">
+  <div class="wrap">
+    <h2>Ninguém atravessa a cidade <em>por um post bonito.</em></h2>
+    <p>Atravessa por uma cena. Um prato que escorre. Uma pessoa explicando uma coisa que ela entende de verdade. Um lugar que parece ter cheiro.</p>
+    <p>A Pilar faz esse tipo de conteúdo. Vídeo com roteiro, direção e um motivo para existir. Para cafeterias, consultórios, indústrias, escolas, eventos, para qualquer marca consolidada que quer que mais gente saiba o que ela já faz bem.</p>
+    <p><span class="nao">Não fazemos tráfego pago. Não prometemos seguidor. Não fazemos "tudo de marketing".</span> Fazemos a parte que faz alguém querer ir até você.</p>
+  </div>
+</section>
+
+<section class="servicos deep" id="servicos">
+  <div class="wrap">
+    <div class="head">
+      <h2>Cinco frentes. <em>Uma cabeça.</em></h2>
+      <p class="lead">Roteiro, captação, edição e design saem da mesma pessoa. É por isso que o vídeo final parece o que foi planejado.</p>
+    </div>
+    <div class="frentes">
+      <div class="frente"><span class="n">01</span><h3>Posicionamento e estratégia</h3><p>Antes de gravar, a gente decide o que a sua marca precisa dizer e para quem. O conteúdo nasce disso, não de uma trend.</p></div>
+      <div class="frente"><span class="n">02</span><h3>Roteiro e direção criativa</h3><p>Cada vídeo tem um ângulo. "O som favorito da cafeteria" é diferente de "vídeo do café". A diferença está no roteiro.</p></div>
+      <div class="frente"><span class="n">03</span><h3>Captação mobile e edição</h3><p>Gravamos com celular, com luz e enquadramento pensados, em um único dia. Editamos com ritmo e legenda que se lê.</p></div>
+      <div class="frente"><span class="n">04</span><h3>Design para criativos</h3><p>Posts estáticos, capas e artes que seguem a mesma linha dos vídeos, para o feed ter uma cara só.</p></div>
+      <div class="frente"><span class="n">05</span><h3>Cobertura de eventos</h3><p>Storymaker no dia: Stories em tempo real enquanto o evento acontece e vídeos editados para depois. Foi assim no jantar do Vida na Cozinha.</p></div>
+    </div>
+    <p class="nao-fazemos">O que não fazemos: tráfego pago e Stories do dia a dia da marca. Se você precisa disso, indicamos quem faz.</p>
+  </div>
+</section>
+
+<section class="processo dark" id="processo">
+  <div class="wrap">
+    <p class="eyebrow">Como funciona</p>
+    <h2>Um dia de gravação. <em>Um mês de conteúdo.</em></h2>
+    <p class="lead" style="margin-top:24px">O processo foi desenhado para você dedicar poucas horas por mês e nunca mais pensar "o que eu posto hoje".</p>
+    <div class="grid">
+      <div class="foto"><img src="{{CAFE}}" alt="Indyanara Souza trabalhando no notebook em uma cafeteria"></div>
+      <ol class="passos" id="passos">
+        <span class="fill" id="fill"></span>
+        <li class="passo"><span class="n">1</span><div><h3>Pesquisa e planejamento</h3><p>A gente estuda a sua marca, o seu público e o que os seus concorrentes estão fazendo.</p></div></li>
+        <li class="passo"><span class="n">2</span><div><h3>Definição dos conteúdos</h3><p>Escolhemos os temas e formatos do mês com base no que a marca precisa comunicar.</p></div></li>
+        <li class="passo"><span class="n">3</span><div><h3>Roteiros</h3><p>Cada vídeo ganha roteiro: o que mostrar, o que dizer, em que ordem.</p></div></li>
+        <li class="passo"><span class="n">4</span><div><h3>Aprovação antecipada</h3><p>Você recebe o planejamento completo antes de qualquer gravação. Ajusta o que quiser, uma vez só.</p></div></li>
+        <li class="passo"><span class="n">5</span><div><h3>Gravação em um dia</h3><p>Um encontro, todos os vídeos do mês seguinte. Você volta para o seu trabalho.</p></div></li>
+      </ol>
+    </div>
+    <div class="fecho">
+      <p>Depois disso, o conteúdo chega pronto, com antecedência. Nada de aprovar post às 22h.</p>
+      <a class="btn flat" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="processo">Quero esse processo</a>
+    </div>
+  </div>
+</section>
+
+<section class="cases dark" id="cases">
+  <div class="wrap">
+    <p class="eyebrow">Cases selecionados</p>
+    <h2>O que aconteceu <em>quando a gente entrou.</em></h2>
+
+    <article class="case">
+      <div class="media row" style="--n:3">
+        <div class="reel" data-key="karen-equipe"></div>
+        <div class="reel" data-key="karen-treinamento"></div>
+        <div class="reel" data-key="karen-horizon"></div>
+      </div>
+      <div>
+        <div class="top"><div><h3>Karen Storti</h3><p class="seg">Desenvolvimento humano e liderança</p></div><span class="st atual">Cliente atual · desde dez/2025</span></div>
+        <dl>
+          <div><dt>Desafio</dt><dd>Uma consultora com muita experiência e um perfil pequeno, que não traduzia a autoridade que ela tem na sala.</dd></div>
+          <div><dt>O que fizemos</dt><dd>Posicionamento, roteiros e produção de Reels mostrando como ela analisa uma empresa e uma equipe.</dd></div>
+        </dl>
+        <div class="nums">
+          <div class="num"><b data-count="31366">31.366</b><span>visualizações em 30 dias</span></div>
+          <div class="num"><b>87,3%</b><span>vindas de não seguidores</span></div>
+          <div class="num"><b data-count="499" data-prefix="+">+499</b><span>seguidores líquidos</span></div>
+          <div class="num"><b>190 → 876</b><span>seguidores no perfil</span></div>
+        </div>
+        <p class="note">Instagram Insights, 18 de agosto a 16 de setembro de 2026. No período, um único Reel roteirizado ("Toda vez que um empresário me diz 'o problema é a equipe'") chegou a 6,4 mil visualizações e puxou o mês.</p>
+      </div>
+    </article>
+
+    <article class="case flip">
+      <div class="media row" style="--n:3">
+        <div class="reel" data-key="tangerine-namorados"></div>
+        <div class="reel" data-key="tangerine-folhado"></div>
+        <div class="reel" data-key="tangerine-pascoa"></div>
+      </div>
+      <div>
+        <div class="top"><div><h3>Tangerine Confeitaria</h3><p class="seg">Pâtisserie em Bragança Paulista</p></div><span class="st">Projeto realizado · dez/2024 a out/2025</span></div>
+        <dl>
+          <div><dt>Desafio</dt><dd>Uma marca recém-chegada na cidade, com perfil zerado, precisando virar lugar conhecido.</dd></div>
+          <div><dt>O que fizemos</dt><dd>Criamos o perfil e a linha de conteúdo do zero, com pessoas reais consumindo os produtos, e produzimos por dez meses.</dd></div>
+        </dl>
+        <div class="nums" style="grid-template-columns:auto">
+          <div class="num"><b>0 → 11 mil</b><span>seguidores no período em que a Pilar atuou</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="media row" style="--n:4">
+        <div class="reel" data-key="alma-marcelo"></div>
+        <div class="reel" data-key="alma-backstage"></div>
+        <div class="reel" data-key="alma-cafe"></div>
+        <div class="reel" data-key="alma-frio"></div>
+      </div>
+      <div>
+        <div class="top"><div><h3>Alma Café &amp; Bistrô</h3><p class="seg">Cafeteria e bistrô</p></div><span class="st">Projeto realizado · jul/2026</span></div>
+        <dl>
+          <div><dt>Desafio</dt><dd>Mostrar o que acontece antes do prato chegar na mesa.</dd></div>
+          <div><dt>O que fizemos</dt><dd>Planejamento, 11 roteiros e um único dia de gravação. Bastidor da cozinha, a história do chef, o som da máquina de café, o prato que "não tem como deixar arrumado, e nem devia".</dd></div>
+        </dl>
+        <p class="note">Sem números aqui. Este case está na página pelo que se vê. Toque nos vídeos para assistir com som.</p>
+      </div>
+    </article>
+
+    <article class="case flip">
+      <div class="media row" style="--n:3">
+        <div class="reel" data-key="marcia-2807"></div>
+        <div class="reel" data-key="marcia-aula"></div>
+        <div class="reel" data-key="marcia-horizon"></div>
+      </div>
+      <div>
+        <div class="top"><div><h3>Márcia Lerinna</h3><p class="seg">Criadora do Código Humano</p></div><span class="st atual">Cliente atual · desde jul/2026</span></div>
+        <dl>
+          <div><dt>Desafio</dt><dd>Uma marca pessoal com 44 mil seguidores e sem planejamento. Conteúdo saindo quando dava.</dd></div>
+          <div><dt>O que fizemos</dt><dd>Roteiro, captação, edição e um calendário que é seguido.</dd></div>
+        </dl>
+        <div class="nums">
+          <div class="num"><b data-count="58885">58.885</b><span>visualizações em 30 dias</span></div>
+          <div class="num"><b>8,5 mil</b><span>visualizações no Reel mais visto</span></div>
+        </div>
+        <p class="note">Instagram Insights, 18 de agosto a 16 de setembro de 2026.</p>
+      </div>
+    </article>
+
+    <p class="foot">Dados extraídos do Instagram Insights de cada perfil, nos períodos indicados. Resultados variam por marca, segmento e consistência.</p>
+    <div class="cta"><a class="btn flat" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="cases">Conversar sobre a minha marca</a></div>
+  </div>
+</section>
+
+<section class="galeria dark" id="galeria">
+  <div class="wrap">
+    <h2>Trabalhos <em>desenvolvidos.</em></h2>
+    <div class="grid12" id="grid"></div>
+  </div>
+</section>
+
+<section class="design dark" id="design">
+  <div class="wrap">
+    <div class="head">
+      <h2>Design <em>para criativos.</em></h2>
+      <p class="lead">Carrosséis e posts que seguem a mesma linha dos vídeos. Toque em um para passar os slides.</p>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<section class="sobre deep" id="sobre">
+  <div class="wrap">
+    <div class="grid">
+      <div class="foto"><img src="{{BLAZER}}" alt="Indyanara Souza segurando um celular com um perfil do Instagram aberto"></div>
+      <div>
+        <p class="eyebrow">Sobre</p>
+        <h2>A emoção vence <em>o algoritmo.</em></h2>
+        <p>Eu aprendi isso filmando casamentos. Ninguém assiste ao vídeo de um casamento por causa da câmera. Assiste porque tem uma história ali.</p>
+        <p>Levei essa lente para as marcas. Hoje eu planejo, roteirizo, gravo e edito o conteúdo de negócios que já fazem uma coisa muito bem e precisam que mais gente saiba. Gosto de cafeteria, de restaurante, de gente que explica o que faz com os olhos brilhando. E gosto de processo: o cliente que trabalha comigo grava uma vez por mês e recebe tudo com antecedência.</p>
+        <p>Se você quer conteúdo bonito, tem muita gente boa. Se você quer conteúdo que tira gente do lugar, a gente conversa.</p>
+        <div class="ass"><b>Indyanara Souza</b><span>Fundadora e estrategista da Pilar Agência · <a href="https://www.instagram.com/indyasocialmedia/" target="_blank" rel="noopener">@indyasocialmedia</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quem deep" id="quem">
+  <div class="wrap">
+    <p class="eyebrow">Para quem é</p>
+    <div class="cols">
+      <div>
+        <h3>A Pilar é para você se</h3>
+        <ul>
+          <li>Seu negócio já está de pé, com clientes, equipe e um produto que você tem orgulho de mostrar.</li>
+          <li>Você sabe que Instagram não é caixa registradora. É onde a pessoa decide se você vale a visita.</li>
+          <li>Você quer parar de pensar em conteúdo todo dia e ter um processo que funciona sem você.</li>
+          <li>Você está em qualquer lugar do Brasil. A gente se organiza para gravar.</li>
+        </ul>
+      </div>
+      <div class="nao">
+        <h3>E não é para você se</h3>
+        <ul>
+          <li>Seu negócio está abrindo agora. Volta daqui a um ano, com história para contar.</li>
+          <li>Você espera que o social media venda por você. Não é essa a função, e a gente prefere dizer isso antes.</li>
+          <li>Você quer tráfego pago, Stories todos os dias ou uma agência que faz tudo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq deep" id="faq">
+  <div class="wrap">
+    <h2>Perguntas <em>frequentes.</em></h2>
+    <details><summary>Vocês vão me fazer vender mais pelo Instagram?</summary><p>Não é isso que a gente promete. O que a gente faz é posicionar: quando alguém encontra a sua marca, ela precisa entender em segundos por que vale a pena ir até você. Venda é consequência de posicionamento, atendimento, produto e preço. A gente cuida da primeira parte.</p></details>
+    <details><summary>Quanto tempo eu preciso dedicar por mês?</summary><p>Um dia de gravação e uma rodada de aprovação do planejamento. O resto é com a gente.</p></details>
+    <details><summary>Vocês fazem tráfego pago?</summary><p>Não. Fazemos o conteúdo. Se você quiser impulsionar, indicamos parceiros.</p></details>
+    <details><summary>Vocês fazem Stories?</summary><p>No pacote mensal, não. Stories são o dia a dia da marca e funcionam melhor na mão de quem está lá. A exceção são eventos: fazemos cobertura como storymaker, com Stories em tempo real e vídeos editados do evento.</p></details>
+    <details><summary>Vocês atendem fora de Bragança Paulista?</summary><p>Sim, todo o Brasil. Planejamento e aprovação são remotos. A gravação é combinada caso a caso.</p></details>
+    <details><summary>O que acontece na call de diagnóstico?</summary><p>Quarenta minutos olhando o seu perfil, o seu negócio e o que está faltando entre os dois. Você sai com uma leitura clara, feche ou não com a gente.</p></details>
+  </div>
+</section>
+
+<section class="final" id="contato">
+  <div class="wrap">
+    <h2>Vamos ver o que a sua marca <em>ainda não está mostrando.</em></h2>
+    <p>Uma call gratuita de diagnóstico. Sem apresentação de pacote, sem pressão. Só uma leitura honesta do que dá para fazer.</p>
+    <a class="btn" href="https://wa.me/5531997793320" target="_blank" rel="noopener" data-loc="final">Agendar diagnóstico no WhatsApp</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="dark">
+  <div class="wrap">
+    <img src="{{LOGO}}" alt="">
+    <div>
+      <div>Pilar Agência · Estúdio de conteúdo e narrativa · Bragança Paulista, SP · atende todo o Brasil</div>
+      <div class="links">
+        <a href="https://www.instagram.com/pilaragencia.mkt/" target="_blank" rel="noopener">@pilaragencia.mkt</a>
+        <a href="https://www.instagram.com/indyasocialmedia/" target="_blank" rel="noopener">@indyasocialmedia</a>
+        <a href="https://www.linkedin.com/in/indyanara-s-39234a1a8/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:contato@pilaragencia.com">contato@pilaragencia.com</a>
+      </div>
+    </div>
+    <div class="ass">A pessoa atravessa a cidade por causa de um vídeo. A gente faz esse vídeo.</div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Vídeo">
+  <button class="x" id="lbx" aria-label="Fechar">×</button>
+  <div id="lbc"></div>
+</div>
+
+<script>
+/* ===== VÍDEOS ===== (arquivos na pasta videos/)
+   Para colocar os vídeos reais, preencha "src" com a URL do MP4 (9:16, até 3 MB, sem áudio)
+   e, se quiser som no modo tela cheia, "full" com a URL do vídeo com áudio.
+   Enquanto "src" estiver vazio, o site mostra o título do vídeo em uma placa escura. */
+const V = (t,m,k)=>({t,m,src:"videos/"+k+"-loop.mp4",full:"videos/"+k+".mp4",poster:"videos/"+k+".jpg"});
+const VIDEOS = {
+  "alma-backstage":      V("Bastidor da cozinha","Alma Café · gastronomia","alma-backstage"),
+  "alma-marcelo":        V("A história do Marcelo","Alma Café · gastronomia","alma-marcelo"),
+  "karen-equipe":        V("“O problema é a equipe”","Karen Storti · liderança","karen-equipe"),
+  "karen-treinamento":   V("O treinamento que as empresas precisam","Karen Storti · liderança","karen-treinamento"),
+  "karen-horizon":       V("Horizon Mentoring","Karen Storti · liderança","karen-horizon"),
+  "marcia-2807":         V("Você decide por clareza?","Márcia Lerinna · desenvolvimento humano","marcia-2807"),
+  "marcia-aula":         V("Aula fechada","Márcia Lerinna · desenvolvimento humano","marcia-aula"),
+  "marcia-horizon":      V("Horizon","Márcia Lerinna · desenvolvimento humano","marcia-horizon"),
+  "tangerine-namorados": V("Dia dos Namorados","Tangerine · confeitaria","tangerine-namorados"),
+  "tangerine-folhado":   V("O doce perfeito existe","Tangerine · confeitaria","tangerine-folhado"),
+  "tangerine-pascoa":    V("Lançamento de Páscoa","Tangerine · confeitaria","tangerine-pascoa"),
+  "tecnia-feira":        V("Flexo & Labels 2026","Tecnia · indústria","tecnia-feira"),
+  "tecnia-fabrica":      V("A fábrica","Tecnia · indústria","tecnia-fabrica"),
+  "tecnia-convite":      V("Convite para a feira","Tecnia · indústria","tecnia-convite"),
+  "vox-postura":         V("Antes de você falar uma palavra","Vox2you · educação","vox-postura"),
+  "vox-voz":             V("Falar em público","Vox2you · educação","vox-voz"),
+  "ferri-escolha":       V("Você escolheu ou seguiu o fluxo?","Ferri Fonseca · psicologia","ferri-escolha"),
+  "alma-cafe":           V("O frio pede algo especial","Alma Café · gastronomia","alma-cafe"),
+  "alma-frio":           V("Café especial","Alma Café · gastronomia","alma-frio"),
+  "ferri-crescer":       V("Crescer junto","Ferri Fonseca · psicologia","ferri-crescer"),
+  "jfor-cnpj":           V("O CNPJ em dia","JFor · contabilidade","jfor-cnpj"),
+  "evento-noite":        V("Noite de jantar","Vida na Cozinha · cobertura de evento","evento-noite"),
+  "evento-fabinha":      V("Depoimento da Fabinha","Vida na Cozinha · cobertura de evento","evento-fabinha"),
+  "evento-decoracao":    V("A decoração","Vida na Cozinha · cobertura de evento","evento-decoracao"),
+  "evento-mesa":         V("A mesa","Vida na Cozinha · cobertura de evento","evento-mesa"),
+  "jfor-contador":       V("“Meu contador vai resolver tudo”","JFor · contabilidade","jfor-contador")
+};
+const HERO = ["alma-backstage","karen-equipe","tangerine-folhado","marcia-2807","alma-cafe"];
+const GRID = ["evento-noite","vox-postura","ferri-escolha","tecnia-feira","evento-fabinha","jfor-contador","vox-voz","evento-decoracao","tecnia-fabrica","ferri-crescer","evento-mesa","tecnia-convite"];
+
+function reelHTML(key){ return '<div class="reel" data-key="'+key+'"></div>'; }
+document.getElementById('hero-reels').innerHTML = HERO.map(reelHTML).join('');
+document.getElementById('grid').innerHTML = GRID.map(reelHTML).join('');
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.reel').forEach(el=>{
+  const v = VIDEOS[el.dataset.key]; if(!v) return;
+  el.setAttribute('role','button'); el.tabIndex=0; el.setAttribute('aria-label', v.t+' — '+v.m);
+  if(v.src){
+    el.classList.add('hasvideo');
+    const vid=document.createElement('video'); if(v.poster) vid.poster=v.poster; vid.src=v.src; vid.muted=true; vid.loop=true; vid.playsInline=true; vid.preload='metadata';
+    el.appendChild(vid);
+    el.insertAdjacentHTML('beforeend','<span class="tag">'+v.m+'</span>');
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting && !reduce){vid.play().catch(()=>{}); el.classList.add('playing');} else {vid.pause(); el.classList.remove('playing');} }),{threshold:.4});
+    io.observe(el);
+  } else {
+    el.innerHTML='<div class="ph"><span class="t">'+v.t+'</span><span class="m">'+v.m+'</span></div>';
+  }
+  const open=()=>{
+    cur=null;
+    const lb=document.getElementById('lb'), c=document.getElementById('lbc');
+    const s=v.full||v.src;
+    c.innerHTML = s ? '<video src="'+s+'" controls autoplay playsinline></video>' : '<p class="msg">'+v.t+'<br><small>'+v.m+'</small></p>';
+    lb.classList.add('on'); document.getElementById('lbx').focus();
+  };
+  el.addEventListener('click',open); el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();open();} });
+});
+const lb=document.getElementById('lb');
+const closeLb=()=>{ cur=null; lb.classList.remove('on'); document.getElementById('lbc').innerHTML=''; };
+document.getElementById('lbx').addEventListener('click',closeLb);
+lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
+
+
+/* ===== DESIGN (carrosséis em designs/) ===== */
+const DESIGNS = [
+  {k:"karen-equipe",     n:7, m:"Karen Storti"},
+  {k:"marcia-shell",     n:7, m:"Márcia Lerinna"},
+  {k:"karen-succession", n:9, m:"Karen Storti"},
+  {k:"cafe-especial",    n:5, m:"Naty"},
+  {k:"marcia-horizon",   n:7, m:"Márcia Lerinna"},
+  {k:"terapia",          n:8, m:"Ferri Fonseca"},
+  {k:"marcia-sozinho",   n:7, m:"Márcia Lerinna"},
+  {k:"marcia-2027",      n:6, m:"Márcia Lerinna"}
+];
+const cards=document.getElementById('cards');
+cards.innerHTML = DESIGNS.map((d,i)=>'<button class="card" data-i="'+i+'" aria-label="Carrossel '+d.m+', '+d.n+' slides"><img loading="lazy" src="designs/'+d.k+'-1.jpg" alt=""><span class="cap"><b>'+d.m+'</b><span>'+d.n+' slides</span></span></button>').join('');
+let cur=null, idx=0;
+function drawSlide(){
+  const c=document.getElementById('lbc');
+  c.innerHTML='<div class="slides"><img src="designs/'+cur.k+'-'+(idx+1)+'.jpg" alt="Slide '+(idx+1)+' de '+cur.n+'"><div class="ctl"><button id="sp" aria-label="Slide anterior"'+(idx===0?' disabled':'')+'>‹</button><span>'+(idx+1)+' / '+cur.n+'</span><button id="sn" aria-label="Próximo slide"'+(idx===cur.n-1?' disabled':'')+'>›</button></div><span class="nm">'+cur.m+'</span></div>';
+  document.getElementById('sp').onclick=e=>{e.stopPropagation(); if(idx>0){idx--;drawSlide();}};
+  document.getElementById('sn').onclick=e=>{e.stopPropagation(); if(idx<cur.n-1){idx++;drawSlide();}};
+  if(idx+1<cur.n){ const pre=new Image(); pre.src='designs/'+cur.k+'-'+(idx+2)+'.jpg'; }
+}
+cards.addEventListener('click',e=>{
+  const b=e.target.closest('.card'); if(!b) return;
+  cur=DESIGNS[+b.dataset.i]; idx=0; drawSlide();
+  document.getElementById('lb').classList.add('on'); document.getElementById('lbx').focus();
+});
+addEventListener('keydown',e=>{
+  if(!cur || !document.getElementById('lb').classList.contains('on')) return;
+  if(e.key==='ArrowRight' && idx<cur.n-1){idx++;drawSlide();}
+  if(e.key==='ArrowLeft' && idx>0){idx--;drawSlide();}
+});
+let tx=null;
+document.getElementById('lb').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+document.getElementById('lb').addEventListener('touchend',e=>{
+  if(!cur||tx===null) return; const dx=e.changedTouches[0].clientX-tx; tx=null;
+  if(dx<-40 && idx<cur.n-1){idx++;drawSlide();} else if(dx>40 && idx>0){idx--;drawSlide();}
+});
+
+/* barra: some ao descer, volta ao subir; botão flutuante no celular */
+let last=0; const bar=document.getElementById('bar'), fab=document.getElementById('fab');
+addEventListener('scroll',()=>{
+  const y=scrollY;
+  bar.classList.toggle('hide', y>last && y>120); last=y;
+  fab.classList.toggle('on', innerWidth<=820 && y>innerHeight*1.2);
+  /* linha do processo */
+  const ol=document.getElementById('passos'); if(!ol) return;
+  const r=ol.getBoundingClientRect(); const p=Math.min(1,Math.max(0,(innerHeight*0.7-r.top)/r.height));
+  document.getElementById('fill').style.height=(p*(r.height-32))+'px';
+  ol.querySelectorAll('.passo').forEach(li=>{ li.classList.toggle('on', li.getBoundingClientRect().top < innerHeight*0.7); });
+},{passive:true});
+
+/* números: contam uma vez ao entrar na tela (o valor final já está visível antes) */
+if(!reduce && 'IntersectionObserver' in window){
+  const fmt=n=>n.toLocaleString('pt-BR');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return; io.unobserve(e.target);
+    const el=e.target, end=+el.dataset.count, pre=el.dataset.prefix||'', t0=performance.now();
+    const step=t=>{ const k=Math.min(1,(t-t0)/1200), v=Math.round(end*(1-Math.pow(1-k,3))); el.textContent=pre+fmt(v); if(k<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }),{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+}
+</script>
+
+</body>
+</html>
